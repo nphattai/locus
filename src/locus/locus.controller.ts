@@ -1,7 +1,17 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Request, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { LOCUS_SIDELOADING, LocusService } from './locus.service';
-import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@ApiTags('Locus')
 @Controller('locus')
 export class LocusController {
   constructor(private readonly locusService: LocusService) {}
@@ -30,6 +40,7 @@ export class LocusController {
     @Query('sideloading') sideloading: LOCUS_SIDELOADING,
     @Query('page') page: number,
     @Query('limit') limit: number,
+    @Request() request: any,
   ) {
     return this.locusService.getLocus({
       id,
@@ -39,6 +50,7 @@ export class LocusController {
       sideloading,
       page,
       limit,
+      role: request.user.role,
     });
   }
 }

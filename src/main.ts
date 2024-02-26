@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('Locus test api')
     .setDescription('Locus test api')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
