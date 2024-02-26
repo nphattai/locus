@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  // Testing only
   @Post('/generate-token')
   generateToken(
     @Body() body: { userId: number; username: string; role: string },
